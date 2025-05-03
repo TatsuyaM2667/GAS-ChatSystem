@@ -5,7 +5,7 @@ function doGet(e) {
   } 
 
 function addMessage(username, recipient, message) {
-  var sheet = SpreadsheetApp.openById("1h_IRvpUCIw2oPNrpyUEPqHeejpnAuRENZ5lQRWGYZv8").getSheetByName("ChatLog");
+  var sheet = SpreadsheetApp.openById("SpreadShnetID").getSheetByName("ChatLog");
   var senderEmail = Session.getActiveUser().getEmail();
   sheet.appendRow([new Date(), senderEmail, username, recipient, message]);
 
@@ -20,7 +20,7 @@ function addMessage(username, recipient, message) {
 }
 
 function getMessages() { 
-  var sheet = SpreadsheetApp.openById("1h_IRvpUCIw2oPNrpyUEPqHeejpnAuRENZ5lQRWGYZv8").getSheetByName("ChatLog"); 
+  var sheet = SpreadsheetApp.openById("SpreadShnetID").getSheetByName("ChatLog"); 
   var data = sheet.getDataRange().getValues(); 
   var currentUser = Session.getActiveUser().getEmail(); // 現在のユーザーのメールアドレスを取得
   var formattedData = [];
@@ -62,7 +62,7 @@ function getGroupMessages(groupName) {
 }
 
 function getUsernameByEmail(email) { 
-  var sheet = SpreadsheetApp.openById("1h_IRvpUCIw2oPNrpyUEPqHeejpnAuRENZ5lQRWGYZv8").getSheetByName("UserList"); // ユーザーリストを管理
+  var sheet = SpreadsheetApp.openById("SpreadShnetID").getSheetByName("UserList"); // ユーザーリストを管理
   var data = sheet.getDataRange().getValues(); 
   for (var i = 1; i < data.length; i++) { 
   if (data[i][1] === email) { 
@@ -98,7 +98,7 @@ function checkCache() {
   } 
 
 function loginUser(username, password) { 
-  var sheet = SpreadsheetApp.openById("1h_IRvpUCIw2oPNrpyUEPqHeejpnAuRENZ5lQRWGYZv8").getSheetByName("UserList"); 
+  var sheet = SpreadsheetApp.openById("SpreadShnetID").getSheetByName("UserList"); 
   var data = sheet.getDataRange().getValues();
   for (var i = 1; i < data.length; i++) { 
   if (data[i][0] === username && data[i][1] === password) { 
@@ -106,7 +106,7 @@ function loginUser(username, password) {
     }
 
 function registerUser(username, password, email) { 
-  var sheet = SpreadsheetApp.openById("1h_IRvpUCIw2oPNrpyUEPqHeejpnAuRENZ5lQRWGYZv8").getSheetByName("UserList"); var data = sheet.getDataRange().getValues();// ユーザー名の重複チェック 
+  var sheet = SpreadsheetApp.openById("SpreadShnetID").getSheetByName("UserList"); var data = sheet.getDataRange().getValues();// ユーザー名の重複チェック 
       for (var i = 1; i < data.length; i++) { 
         if (data[i][0] === username) 
       { 
@@ -117,7 +117,7 @@ function registerUser(username, password, email) {
        }
 
 function getUsers() { 
- var sheet = SpreadsheetApp.openById("1h_IRvpUCIw2oPNrpyUEPqHeejpnAuRENZ5lQRWGYZv8").getSheetByName("UserList"); 
+ var sheet = SpreadsheetApp.openById("SpreadShnetID").getSheetByName("UserList"); 
  var data = sheet.getDataRange().getValues(); 
  var users = []; for (var i = 1; i < data.length; i++) {
     users.push({ username: data[i][0] }); // オブジェクトとしてユーザー名を保存 
@@ -132,7 +132,7 @@ function notifyClients() {
 }
 
 function updateUserLastReadTime(username) {
-  var sheet = SpreadsheetApp.openById("1h_IRvpUCIw2oPNrpyUEPqHeejpnAuRENZ5lQRWGYZv8").getSheetByName("UserLastRead");
+  var sheet = SpreadsheetApp.openById("SpreadShnetID").getSheetByName("UserLastRead");
   var data = sheet.getDataRange().getValues();
   
   for (var i = 1; i < data.length; i++) {
@@ -145,8 +145,8 @@ function updateUserLastReadTime(username) {
 }
 
 function getUnreadCount(username) {
-  var sheet = SpreadsheetApp.openById("1h_IRvpUCIw2oPNrpyUEPqHeejpnAuRENZ5lQRWGYZv8").getSheetByName("ChatLog");
-  var readSheet = SpreadsheetApp.openById("1h_IRvpUCIw2oPNrpyUEPqHeejpnAuRENZ5lQRWGYZv8").getSheetByName("UserLastRead");
+  var sheet = SpreadsheetApp.openById("SpreadShnetID").getSheetByName("ChatLog");
+  var readSheet = SpreadsheetApp.openById("SpreadShnetID").getSheetByName("UserLastRead");
 
   var lastReadTime = null;
   var readData = readSheet.getDataRange().getValues();
