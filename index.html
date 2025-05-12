@@ -195,14 +195,18 @@ button:active {
   max-height: calc(100vh - 60px); /* メニュー内のボタンがスクロールできる高さに調整 */
   overflow-y: auto;
 }
-         input { 
-          width: 95%; /* フォームの幅を最大に */ 
-          font-size: 18px; /* フォントサイズを拡大 */ 
-          padding: 12px; /* 入力欄内の余白を増やして快適に */ 
-          border: 2px solid #ccc; /* 枠線を少し太くして視認しやすく */ 
-          border-radius: 6px; /* 角を丸くして自然なデザインに */ } 
-          #registerForm { display: none;
-           } 
+   input { 
+   width: 95%; /* フォームの幅を最大に */ 
+   font-size: 18px; /* フォントサイズを拡大 */ 
+   padding: 12px; /* 入力欄内の余白を増やして快適に */ 
+   border: 2px solid #ccc; /* 枠線を少し太くして視認しやすく */ 
+   border-radius: 6px; /* 角を丸くして自然なデザインに */ 
+   } 
+   
+#registerForm {
+  display: none;
+  }
+   
 #currentRecipient {
   font-size: 16px;
   font-weight: bold;
@@ -212,6 +216,7 @@ button:active {
   border-radius: 6px;
   text-align: center;
 }
+   
 .modal {
   position: fixed;
   top: 0;
@@ -481,9 +486,10 @@ function sendMessage() {
 }
 
 function logout() { 
-      sessionStorage.removeItem("username"); 
-      document.getElementById("chatSection").style.display = "none"; document.getElementById("menuBar").style.display = "none"; // ログアウト時にメニューバーを隠す 
-    document.getElementById("loginForm").style.display = "block"; 
+  sessionStorage.removeItem("username"); 
+  document.getElementById("chatSection").style.display = "none"; 
+  document.getElementById("menuBar").style.display = "none"; // ログアウト時にメニューバーを隠す 
+  document.getElementById("loginForm").style.display = "block"; 
 } 
 
 function showRegister() { 
@@ -502,15 +508,18 @@ function loadUsers() {
       userList.innerHTML = ""; 
       users.forEach(user => { 
    if (user.username) { // 修正後のオブジェクト構造に対応 
-const userItem = document.createElement("div"); 
-userItem.innerHTML = ` <strong>${user.username}</strong> 
-<button onclick="startDM('${user.username}')">メッセージ</button> `;
-userList.appendChild(userItem);
+     const userItem = document.createElement("div"); 
+      userItem.innerHTML = ` <strong>${user.username}</strong> 
+     <button onclick="startDM('${user.username}')">メッセージ</button> `;
+      userList.appendChild(userItem);
         } else { 
-          console.warn("ユーザー名が不明です", user); 
-       } }); 
-       }).getUsers(); 
+        console.warn("ユーザー名が不明です", user); 
+       } 
+      }); 
+    })
+   .getUsers(); 
 } 
+   
 let selectedDMUser = ""; // DMモードの宛先ユーザー名を保存
 
 function startDM(username) {
@@ -564,7 +573,7 @@ function createGroup() {
 }
 
 function getUsers() { 
-        var sheet = SpreadsheetApp.openById("1h_IRvpUCIw2oPNrpyUEPqHeejpnAuRENZ5lQRWGYZv8").getSheetByName("UserList"); 
+        var sheet = SpreadsheetApp.openById("SpreadSheetID").getSheetByName("UserList"); 
       var data = sheet.getDataRange().getValues(); 
       var users = []; 
       for (var i = 1; i < data.length; i++) { 
@@ -701,7 +710,6 @@ window.onload = function() {
   const username = sessionStorage.getItem("username"); 
   loadUsers(); 
   loadGroups(); // ログイン済みの場合、グループ一覧をロード
-
   if (username) { 
     document.getElementById("loginForm").style.display = "none"; 
     document.getElementById("chatSection").style.display = "flex"; 
@@ -714,9 +722,9 @@ window.onload = function() {
     menuBar.classList.toggle("expanded");
      } else {
     // メニューバー外をクリックしたら閉じる
-   menuBar.classList.remove("expanded");
-  }
-});
+    menuBar.classList.remove("expanded");
+    }
+  });
 });
   loadMessages();
   } else { 
