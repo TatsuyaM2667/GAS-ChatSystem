@@ -260,13 +260,12 @@ button:active {
             <p><button onclick="showLogin()">ログイン画面に戻る</button></p> 
           <h3>--------利用規約----------</h3>
         <h5>1.誤作動があるかもしれないけどご了承ください。
-          <br>2.誹謗中傷はおやめください。運営は個人の特定をすることが可能です。ただし、運営は責任を負いません。要望があれば開発者にダイレクトメッセージを送信してください。
+        <br>2.誹謗中傷はおやめください。運営は個人の特定をすることが可能です。ただし、運営は責任を負いません。要望があれば開発者にダイレクトメッセージを送信してください。
         <br>3.アカウント作成の時点でこの利用規約に同意したものとみなします。
         </h5>
+    </div>
 
-            </div>
-
-             <!-- メニューバー --> 
+<!-- メニューバー --> 
 <div id="menuBar">
   <div class="scrollable-content">
     <button onclick="selectRoom('general')">全体チャット</button>
@@ -305,29 +304,29 @@ button:active {
   </div>
 </div>
 </div>
-    <!-- チャット画面 --> 
-    <div id="chatSection"> <h1>GAS ChatSystem ver6.0</h1> <div id="chatLog">
-      </div><div id="currentRecipient">現在の宛先: 全体チャット</div>
-      <div id="unreadCount">未読メッセージ: 0件</div>
+<!-- チャット画面 --> 
+  <div id="chatSection"> <h1>GAS ChatSystem ver6.0</h1> <div id="chatLog"></div>
+  <div id="currentRecipient">現在の宛先: 全体チャット</div>
+  <div id="unreadCount">未読メッセージ: 0件</div>
 
  <div id="messageInputArea">
-         <input type="text" id="recipient" placeholder="宛先ユーザー名（ダイレクトメッセージ用）"> 
-<textarea id="message" placeholder="メッセージを入力" style="width: 100%; padding: 12px; font-size: 18px; border-radius: 6px; resize: vertical;"></textarea>
-          <button onclick="sendMessage()">送信</button> 
-          </div> 
-          </div> 
-  <script> 
+  <input type="text" id="recipient" placeholder="宛先ユーザー名（ダイレクトメッセージ用）"> 
+  <textarea id="message" placeholder="メッセージを入力" style="width: 100%; padding: 12px; font-size: 18px; border-radius: 6px; resize: vertical;"></textarea>
+  <button onclick="sendMessage()">送信</button> 
+    </div> 
+      </div> 
+ <script> 
   let currentRoom = 'general'; // 初期値は全体チャット 
   let selectedGroupName = null;
 
 function selectRoom(room) { 
       currentRoom = room; loadMessages(); // メッセージをフィルタリングして表示 
     } 
+
 function loadMessages() {
   google.script.run.withSuccessHandler(messages => {
     const chatLog = document.getElementById('chatLog');
     const currentUser = sessionStorage.getItem("username");
-
     let filteredMessages = [];
 
     if (currentRoom === 'general') {
@@ -358,6 +357,7 @@ function loadMessages() {
     }, 200);
   }).getMessages();
 }
+
 function updateLastReadTime() {
   const username = sessionStorage.getItem("username");
   google.script.run.updateUserLastReadTime(username);
@@ -381,7 +381,6 @@ function login() {
     document.getElementById("loginMessage").innerText = "ユーザー名とパスワードを入力してください。";
     return;
   }
-  
   google.script.run.withSuccessHandler(response => { 
     document.getElementById("loginMessage").innerText = response; 
     if (response === "ログイン成功") { 
@@ -393,6 +392,7 @@ function login() {
     }
   }).loginUser(username, password);
 }
+
 function register() { 
       const username = document.getElementById("registerUsername").value; 
       const password = document.getElementById("registerPassword").value; 
@@ -408,6 +408,7 @@ function register() {
     } })
     .registerUser(username, password); 
     } 
+
 function checkForUpdates() {
   google.script.run.withSuccessHandler(response => {
     if (response === "true") {
@@ -485,39 +486,16 @@ function logout() {
     document.getElementById("loginForm").style.display = "block"; 
 } 
 
-function showRegister() { document.getElementById("loginForm").style.display = "none"; document.getElementById("registerForm").style.display = "block"; 
+function showRegister() { 
+  document.getElementById("loginForm").style.display = "none"; 
+  document.getElementById("registerForm").style.display = "block"; 
 } 
     
-function showLogin() { document.getElementById("registerForm").style.display = "none"; document.getElementById("loginForm").style.display = "block"; 
+function showLogin() { 
+  document.getElementById("registerForm").style.display = "none"; 
+  document.getElementById("loginForm").style.display = "block"; 
     } 
-    window.onload = function() { 
-      const username = sessionStorage.getItem("username"); 
-      loadUsers(); 
-      loadGroups(); // ログイン済みの場合、グループ一覧をロード
 
-
-    if (username) { 
-      document.getElementById("loginForm").style.display = "none"; 
-      document.getElementById("chatSection").style.display = "flex"; 
-      document.getElementById("menuBar").style.display = "block"; // メニューバーを表示 
-      document.getElementById("menuBar").addEventListener("click", function() {this.classList.toggle("expanded"); 
-  document.addEventListener("click", function(event) {
-  const menuBar = document.getElementById("menuBar");
-  
-  // メニューバー内をクリックしたら開閉を切り替える
-  if (menuBar.contains(event.target)) {
-    menuBar.classList.toggle("expanded");
-  } else {
-    // メニューバー外をクリックしたら閉じる
-    menuBar.classList.remove("expanded");
-  }
-});
-
-});
-loadMessages();
-     } else { 
-      document.getElementById("menuBar").style.display = "none"; 
-      } }; 
 function loadUsers() { 
  google.script.run.withSuccessHandler(users => { console.log(users); // 取得したデータを確認
       const userList = document.getElementById('userList'); 
@@ -532,7 +510,7 @@ userList.appendChild(userItem);
           console.warn("ユーザー名が不明です", user); 
        } }); 
        }).getUsers(); 
-      } 
+} 
 let selectedDMUser = ""; // DMモードの宛先ユーザー名を保存
 
 function startDM(username) {
@@ -584,6 +562,7 @@ function createGroup() {
     .withFailureHandler(err => alert(err.message))
     .createGroupSheet(groupName, members);
 }
+
 function getUsers() { 
         var sheet = SpreadsheetApp.openById("1h_IRvpUCIw2oPNrpyUEPqHeejpnAuRENZ5lQRWGYZv8").getSheetByName("UserList"); 
       var data = sheet.getDataRange().getValues(); 
@@ -594,6 +573,7 @@ function getUsers() {
       Logger.log("ユーザー一覧: " + JSON.stringify(users)); // デバッグ用ログ 
       return users; 
       } 
+
 function loadUserGroups() {
   const username = sessionStorage.getItem("username");
 
@@ -636,6 +616,7 @@ function renderMessages(messages) {
     chatBox.appendChild(div);
   });
 }
+
 function getGroupMessages(groupName) {
   const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(groupName);
   if (!sheet) return [];
@@ -673,6 +654,7 @@ function loadGroups() {
     console.log("取得したグループ一覧:", groups); // デバッグ用に取得したグループをログに出力
   }).getUserGroups(username);
 }
+
 function selectGroupChat(groupName) {
   if (groupName) {
     currentRoom = 'group';
@@ -684,6 +666,7 @@ function selectGroupChat(groupName) {
     console.warn("グループが選択されていません。");
   }
 }
+
 function storeUsername(username) {
   const userProperties = PropertiesService.getUserProperties();
   userProperties.setProperty('username', username);
@@ -713,6 +696,34 @@ function getUserGroups() {
 
   return groups;
 }
+
+window.onload = function() { 
+  const username = sessionStorage.getItem("username"); 
+  loadUsers(); 
+  loadGroups(); // ログイン済みの場合、グループ一覧をロード
+
+  if (username) { 
+    document.getElementById("loginForm").style.display = "none"; 
+    document.getElementById("chatSection").style.display = "flex"; 
+    document.getElementById("menuBar").style.display = "block"; // メニューバーを表示 
+    document.getElementById("menuBar").addEventListener("click", function() {this.classList.toggle("expanded"); 
+    document.addEventListener("click", function(event) {
+     const menuBar = document.getElementById("menuBar");
+  // メニューバー内をクリックしたら開閉を切り替える
+    if (menuBar.contains(event.target)) {
+    menuBar.classList.toggle("expanded");
+     } else {
+    // メニューバー外をクリックしたら閉じる
+   menuBar.classList.remove("expanded");
+  }
+});
+});
+  loadMessages();
+  } else { 
+    document.getElementById("menuBar").style.display = "none"; 
+  }
+}
+
       </script> 
       </body> 
       </html>
